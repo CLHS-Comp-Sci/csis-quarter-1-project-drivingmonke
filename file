@@ -1,2 +1,14 @@
 Daily update 9/5, researching code foundation
 Daily update 9/11, still researching code
+
+
+Code:
+public class MyProgram
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Welcome to Guess the Animal" + "\n" + "You get three questions to gather hints that will help you name the animal.");
+        //promot the user with the amount of letters in the name of their animal.
+        System.out.println("Your animal name has x letters");
+    }
+}
