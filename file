@@ -9,6 +9,20 @@ public class MyProgram
     {
         System.out.println("Welcome to Guess the Animal" + "\n" + "You get three questions to gather hints that will help you name the animal.");
         //promot the user with the amount of letters in the name of their animal.
-        System.out.println("Your animal name has x letters");
+        System.out.println("Your animal name has x letters");\
+        //give the initial hint to the user.
+        System.out.println("Here are the rules of the game: ");
+        System.out.println("You get 3 chances to ask questions to gather information about the animal and one change to guess the animal.");
+        System.out.println("However, you can guess the animal but it will use up one of your questions.");
+        
+    
+    }
+}
+public class MyProgramMain {
+    public static void main(String[] args) {
+        //create object animal and establish instance variables.
+        private int qs;
+        private int gs,
+        
     }
 }
