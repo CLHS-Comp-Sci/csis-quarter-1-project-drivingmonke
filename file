@@ -3,26 +3,91 @@ Daily update 9/11, still researching code
 
 
 Code:
+import java.util.Scanner;
+
+
 public class MyProgram
 {
     public static void main(String[] args)
     {
+
+        Scanner fi = new Scanner(System.in);
+
+        System.out.println(fi.nextLine());
+        Game one = new Game(3, 4);
         System.out.println("Welcome to Guess the Animal" + "\n" + "You get three questions to gather hints that will help you name the animal.");
-        //promot the user with the amount of letters in the name of their animal.
-        System.out.println("Your animal name has x letters");\
+        //prompt the user with the amount of letters in the name of their animal.
+        System.out.println("The name of your animal has " + one.getAnimal().length() + " letters.");
         //give the initial hint to the user.
         System.out.println("Here are the rules of the game: ");
         System.out.println("You get 3 chances to ask questions to gather information about the animal and one change to guess the animal.");
         System.out.println("However, you can guess the animal but it will use up one of your questions.");
+        System.out.println(one);
+        String guess = fi.nextLine();
+        System.out.println(one.checkQues(guess));
+        System.out.println(one);
+
+        while (one.getGuess() > 0)
+        {
+            System.out.println(one);
+            one.wrongGuess();
+
+        }
         
     
     }
 }
-public class MyProgramMain {
-    public static void main(String[] args) {
-        //create object animal and establish instance variables.
-        private int qs;
-        private int gs,
-        
+
+public class Game {
+    private int question;
+    private int guess;
+    private String animal;
+
+
+    public Game(int qs, int gs) {
+        question = qs;
+        guess = gs;
+        animal = "giraffe";
     }
+
+    public void wrongGuess()
+    {
+        question -= 1;
+        guess -= 1;
+    }
+
+    public String getAnimal()
+    {
+        return animal;
+    }
+
+    public int getGuess()
+    {
+        return guess;
+    }
+
+    public int getQuestions()
+    {
+        return question;
+    }
+
+    public String checkQues(String gs)
+    {
+        if (gs.equals(animal))
+        {
+            return "You have correctly guessed the animal!";
+        }
+        else
+        {
+            wrongGuess();
+            return "That is not the correct animal.";
+        }
+    }
+
+    public String toString()
+    {
+        return "Questions remaining: " + question + "\nGuesses remaining: " + guess;
+    }
+
+
 }
