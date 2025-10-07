@@ -3,51 +3,16 @@ Daily update 9/11, still researching code
 
 
 Code:
-import java.util.Scanner;
-
-
-public class MyProgram
-{
-    public static void main(String[] args)
-    {
-
-        Scanner fi = new Scanner(System.in);
-
-        System.out.println(fi.nextLine());
-        Game one = new Game(3, 4);
-        System.out.println("Welcome to Guess the Animal" + "\n" + "You get three questions to gather hints that will help you name the animal.");
-        //prompt the user with the amount of letters in the name of their animal.
-        System.out.println("The name of your animal has " + one.getAnimal().length() + " letters.");
-        //give the initial hint to the user.
-        System.out.println("Here are the rules of the game: ");
-        System.out.println("You get 3 chances to ask questions to gather information about the animal and one change to guess the animal.");
-        System.out.println("However, you can guess the animal but it will use up one of your questions.");
-        System.out.println(one);
-        String guess = fi.nextLine();
-        System.out.println(one.checkQues(guess));
-        System.out.println(one);
-
-        while (one.getGuess() > 0)
-        {
-            System.out.println(one);
-            one.wrongGuess();
-
-        }
-        
-    
-    }
-}
-
 public class Game {
     private int question;
     private int guess;
     private String animal;
 
 
-    public Game(int qs, int gs) {
+    public Game(int qs, int gs, String nim) {
         question = qs;
         guess = gs;
-        animal = "giraffe";
+        animal = nim;
     }
 
     public void wrongGuess()
@@ -71,7 +36,7 @@ public class Game {
         return question;
     }
 
-    public String checkQues(String gs)
+    public String checkGues(String gs)
     {
         if (gs.equals(animal))
         {
@@ -91,3 +56,212 @@ public class Game {
 
 
 }
+import java.util.Scanner;
+import java.io.IOException;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+
+
+public class MyProgram
+{
+    public static void main(String[] args) throws IOException
+    {
+        ArrayList<Animal> animalList = new ArrayList<Animal>();
+
+
+
+//        String[][] anArray = new String[26][5];
+        Scanner file = new Scanner(new File("animalChart.dat"));
+//        String test = file.nextLine();
+//        System.out.println(test);
+//        String[] poop = {test};
+//        System.out.println(poop);
+//        while (file.hasNext())
+//        {
+//            String val = file.nextLine();
+//        }
+        int fishyfish = 0;
+
+        while (file.hasNext()){
+            String val = file.nextLine();
+            List<String> valList = new ArrayList<String>();
+            String[] f = val.split(" ");
+//            System.out.println(f[0] + " " + f[1] + " " + f[2] + " " + f[3] + " " + f[4] );
+            valList.add(f[0]);
+            valList.add(f[1]);
+            valList.add(f[2]);
+            valList.add(f[3]);
+            valList.add(f[4]);
+//            valList.add(f[5]);
+//            System.out.println(valList.get(0));
+//            System.out.println(valList.get(1));
+//            System.out.println(valList.get(2));
+//            System.out.println(valList.get(3));
+//            System.out.println(valList.get(4));
+            if (fishyfish != 0){
+                Animal on = new Animal(valList);
+                animalList.add(on);
+            }
+            fishyfish += 1;
+        }
+//        System.out.println(animalList);
+
+
+        Scanner fi = new Scanner(System.in);
+
+//        System.out.println(fi.nextLine());
+        Random animalGenerator = new Random();
+        int randomAnimalIndex = animalGenerator.nextInt(animalList.size());
+        Animal selected = animalList.get(randomAnimalIndex);
+//        System.out.println(selected);
+        String animalName = selected.getName();
+        int hintIndex = 0;
+        //Picks the animal which the user will try to guess
+
+        Game one = new Game(4, 5, animalName);
+        System.out.println("Welcome to Guess the Animal" + "\n" + "You get three questions to gather hints that will help you name the animal.");
+        //prompt the user with the amount of letters in the name of their animal.
+        System.out.println("The name of your animal has " + one.getAnimal().length() + " letters.");
+        //give the initial hint to the user.
+        System.out.println("Here are the rules of the game: ");
+        System.out.println("You get 3 chances to ask questions to gather information about the animal and one change to guess the animal.");
+        System.out.println("However, you can guess the animal but it will use up one of your questions.");
+//        System.out.println(one);
+//        String guess = fi.nextLine();
+//        System.out.println(one.checkGues(guess));
+//        System.out.println(one);
+        boolean core = false;
+
+
+
+        while (one.getGuess() > 0)
+        {
+            System.out.println(one);
+            System.out.println("Would you like to ask a question or guess the animal?");
+            String stringy = fi.nextLine();
+
+            if (stringy.equals("Guess") || stringy.equals("I want to guess"))
+            {
+                String ans = fi.nextLine();
+                if((one.checkGues(ans)).equals("You have correctly guessed the animal!")){
+                    System.out.println("You have correctly guessed the animal!");
+                    core = true;
+                    break;
+
+                }
+
+            }
+            else
+            {
+                System.out.println(selected.getHint(hintIndex));
+            }
+            one.wrongGuess();
+            hintIndex++;
+
+        }
+        if (!core){
+            System.out.println("Sorry you've ran out of attempts");
+        }
+
+    
+    }
+}
+import java.util.ArrayList;
+import java.util.List;
+
+public class Animal {
+    //import stuff
+
+    //establish instance variables
+    private String Name;
+    private String classy;
+    private String Habitat;
+    private String Diet;
+    private String fact;
+
+    //make constructor
+    public Animal(List<String> fish){
+        Name = fish.get(0);
+        classy = fish.get(1);
+        Habitat = fish.get(2);
+        Diet = fish.get(3);
+        fact = fish.get(4);
+    }
+
+    public String getName(){
+        return Name;
+    }
+
+    public String getclassy(){
+        return classy;
+    }
+
+    public String getHabitat(){
+        return Habitat;
+    }
+
+    public String getDiet(){
+        return Diet;
+    }
+
+    public String getFact(){
+        return fact;
+    }
+
+    public String getHint(int index){
+        if (index == 0){
+            return "Your animal is in the " + classy + " class.";
+        }
+        else if (index == 1){
+            return "Your animal lives in the " + Habitat + ".";
+        }
+        else if (index == 2){
+            return "Your animal is a " + Diet + ".";
+        }
+        else if (index == 3){
+            return "Your animal is/has " + fact + ".";
+        }
+        else{
+            return "nothing";
+        }
+    }
+
+    public String toString(){
+        return Name;
+    }
+
+
+}
+
+
+animalChart.dat
+Animal Classification Habitat Diet Fact
+Lion Mammal Savanna Carnivore Social; lives_in_prides
+Elephant Mammal Grasslands Herbivore Large_ears; strong_memory
+Crocodile Reptile Wetlands/Rivers Carnivore Armored_skin; powerful_jaws
+Eagle Bird Mountains/Skies Carnivore Excellent_vision; strong_talons
+Penguin Bird Antarctic Coast Carnivore Flightless; expert_swimmer
+Dolphin Mammal Ocean Carnivore Intelligent; echolocation
+Kangaroo Mammal Grasslands Herbivore Powerful_hind_legs; pouch_for_young
+Snake Reptile Various Carnivore No_limbs; some_species_venomous
+Frog Amphibian Wetlands Insectivore Lives_on_land_and_water; has_a_long_tongue
+Gorilla Mammal Tropical Forests Herbivore Highly_intelligent; uses_tools
+Owl Bird Forests Carnivore Nocturnal; silent_flight
+Octopus Mollusk Ocean Carnivore 8_limbs; high_intelligence
+Polar_Bear Mammal Arctic Carnivore Thick_fur; strong_swimmer
+Camel Mammal Desert Herbivore Stores_fat_in_humps; often_seen_in_movies
+Chameleon Reptile Forests Insectivore Changes_color; independently_moving_eyes
+Wolf Mammal Forests/Mountains Carnivore Lives_and_hunts_in_packs
+Parrot Bird Tropical Forests Omnivore Mimics_human_speech; bright_feathers
+Whale_Shark Fish Tropical Oceans Filter_Feeder_Largest_fish; docile_nature
+Ant Insect Various (Underground) Omnivore Lives_in_colonies; teamwork
+Beaver Mammal Freshwater Rivers Herbivore Builds_dams; strong_teeth
+Bat Mammal Caves/Forests Insectivore_(some_fruit) Echolocation; only_flying_mammal
+Giraffe Mammal Savanna Herbivore Long_neck; tallest_land_animal
+Shark Fish Ocean Carnivore Keen_sense_of_smell; apex_predator
+Tortoise Reptile Deserts/Grasslands Herbivore Long_lifespan; hard_shell
+Flamingo Bird Wetlands/Lakes Omnivore Pink_feathers; hides_head_in_the_ground
+
